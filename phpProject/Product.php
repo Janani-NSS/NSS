@@ -15,6 +15,7 @@ class Product{
     public $prodName;
     public $Brand;
     public $Product_Department;
+    public $Product_Name;
     
     
     // constructor with $db as database connection
@@ -43,22 +44,32 @@ class Product{
         //$arr = $stmt->errorInfo();
         //print_r($arr);
         
-        // get retrieved row
-        /* while($row = $stmt->fetch(PDO::FETCH_ASSOC))
-         {
-         //exract($row);
-         $this->queryData = $row['queryData'];
-         $this->displayName = $row['displayName'];
-         $this->imageURL = $row['imageURL'];
-         $this->mrp = $row['mrp'];
-         $this->price = $row['price'];
-         $this->save = $row['save'];
-         $this->prodCode = $row['prodCode'];
-         $this->prodName = $row['prodName'];
-         $this->Brand = $row['Brand'];
-         //$this->Product_Department = $row['Product_Department'];
-         }*/
+       
         //echo $row;
+    }
+    // search products
+    function search($keywords){
+        
+        // select all query
+        $query = "SELECT Product_Department AS queryData,Product_Name AS displayName,Product_PhotoPath AS imageURL,Product_MRP AS mrp,Product_SRate AS price,Product_DiscountRate AS save,Product_Code AS prodCode,Product_Name AS prodName,Product_Brand AS Brand FROM ProductInfo 
+                   WHERE Product_Department LIKE ? OR Product_Name LIKE ? ORDER BY Product_Name ASC";
+        
+        // prepare query statement
+        $stmt = $this->conn->prepare($query);
+        
+        // sanitize
+        $keywords=htmlspecialchars(strip_tags($keywords));
+        $keywords = "%{$keywords}%";
+        
+        // bind
+        $stmt->bindParam(1, $keywords);
+        $stmt->bindParam(2, $keywords);
+        //$stmt->bindParam(3, $keywords);
+        
+        // execute query
+        $stmt->execute();
+        
+        return $stmt;
     }
 }
 ?>
