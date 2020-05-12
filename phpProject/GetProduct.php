@@ -22,36 +22,46 @@ $product=new Product($db);
 $product->Product_Department = isset($_GET['Product_Department']) ? $_GET['Product_Department'] : die();
 
 // read the details of product to be edited
-$product->readOne();
-
-if($product->displayName!=null){
-    // create array
-    $product_arr = array(
-        "queryData" =>  $product->queryData,
-        "displayName" => $product->displayName,
-        "imageURL" => $product->imageURL,
-        "mrp" => $product->mrp,
-        "price" => $product->price,
-        "save" => $product->save,
-        "prodCode" => $product->prodCode,
-        "prodName" => $product->prodName,
-        "Brand" => $product->Brand
-        
-        
-    );
+$stmt=$product->readOne();
+$num = $stmt->rowCount();
+if($num>0){
+    // products array
+    $products_arr=array();
+    $products_arr["productList"]=array();
     
+    // create array
+    while ($row = $stmt->fetch(PDO::FETCH_ASSOC))
+    {
+        extract($row);
+        
+        $product_item = array(
+            
+            "queryData" =>  $queryData,
+            "displayName" => $displayName,
+            "imageURL" => $imageURL,
+            "mrp" => $mrp,
+            "price" => $price,
+            "save" => $save,
+            "prodCode" => $prodCode,
+            "prodName" => $prodName,
+            "Brand" => $Brand
+        );
+        array_push($products_arr["productList"], $product_item);
+    }
     // set response code - 200 OK
     http_response_code(200);
     
     // make it json format
-    echo json_encode($product_arr);
+    echo json_encode($products_arr);
 }
-
 else{
     // set response code - 404 Not found
     http_response_code(404);
     
-    // tell the user product does not exist
-    echo json_encode(array("message" => "Product does not exist."));
+    // tell the user no products found
+    echo json_encode(
+        array("message" => "No products found.")
+        );
 }
+
 ?>
