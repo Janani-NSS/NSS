@@ -16,10 +16,10 @@ $db = $database->getConnection();
 $product = new Product($db);
 
 // get keywords
-$keywords=isset($_GET["productNameTerm"]) ? $_GET["productNameTerm"] : die();
+//$keywords=isset($_GET["productNameTerm"]) ? $_GET["productNameTerm"] : die();
 
 // query products
-$stmt = $product->search($keywords);
+$stmt = $product->catergoryList();
 $num = $stmt->rowCount();
 
 // check if more than 0 record found
@@ -27,7 +27,7 @@ if($num>0){
     
     // products array
     $products_arr=array();
-    $products_arr["productList"]=array();
+    $products_arr["categoryList"]=array();
     
     // retrieve our table contents
     // fetch() is faster than fetchAll()
@@ -42,15 +42,10 @@ if($num>0){
             "queryData" =>  $queryData,
             "displayName" => $displayName,
             "imageURL" => $imageURL,
-            "mrp" => $mrp,
-            "price" => $price,
-            "save" => $save,
-            "prodCode" => $prodCode,
-            "prodName" => $prodName,
-            "Brand" => $Brand
+            
         );
         
-        array_push($products_arr["productList"], $product_item);
+        array_push($products_arr["categoryList"], $product_item);
     }
     
     // set response code - 200 OK
@@ -69,4 +64,5 @@ else{
         array("message" => "No products found.")
         );
 }
+
 ?>

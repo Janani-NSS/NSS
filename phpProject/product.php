@@ -2,7 +2,7 @@
 class Product{
     
     private $conn;
-    private $table_name = "productinfo";
+    private $table_name = "ProductInfo";
     
     // object properties
     public $queryData;
@@ -26,7 +26,7 @@ class Product{
     }
     
     public function catergoryList(){
-        $query="SELECT D_DepartmentName AS queryData,D_DepartmentName AS displayName,D_DepartmentImagePath AS imageURL FROM departmentinfo";
+        $query="SELECT D_DepartmentName AS queryData,D_DepartmentName AS displayName,D_DepartmentImagePath AS imageURL FROM DepartmentInfo";
         $stmt = $this->conn->prepare($query);
         
         // execute query
@@ -42,7 +42,7 @@ class Product{
         {
             $category=$_POST['category'];
             // query to read single record
-            $query = "SELECT Product_Department AS queryData,Product_Name AS displayName,Product_PhotoPath AS imageURL,Product_MRP AS mrp,Product_SRate AS price,Product_DiscountRate AS save,Product_Code AS prodCode,Product_Name AS prodName,Product_Brand AS Brand FROM productinfo WHERE Product_Department ='$category' ORDER BY Product_Name ASC";
+            $query = "SELECT Product_Department AS queryData,Product_Name AS displayName,Product_PhotoPath AS imageURL,Product_MRP AS mrp,Product_SRate AS price,Product_DiscountRate AS save,Product_Code AS prodCode,Product_Name AS prodName,Product_Brand AS Brand FROM ProductInfo WHERE Product_Department ='$category' ORDER BY Product_Name ASC";
             
             // bind id of product to be updated
             //$stmt->bindParam("s",$this->category);
@@ -52,7 +52,7 @@ class Product{
         elseif (isset($_POST['productNameTerm']))
         {
             $productNameTerm=$_POST['productNameTerm'];
-            $query = "SELECT Product_Department AS queryData,Product_Name AS displayName,Product_PhotoPath AS imageURL,Product_MRP AS mrp,Product_SRate AS price,Product_DiscountRate AS save,Product_Code AS prodCode,Product_Name AS prodName,Product_Brand AS Brand FROM productinfo
+            $query = "SELECT Product_Department AS queryData,Product_Name AS displayName,Product_PhotoPath AS imageURL,Product_MRP AS mrp,Product_SRate AS price,Product_DiscountRate AS save,Product_Code AS prodCode,Product_Name AS prodName,Product_Brand AS Brand FROM ProductInfo
                    WHERE Product_Name LIKE '%" .$productNameTerm. "%' ORDER BY Product_Name ASC";
             
             
@@ -69,7 +69,7 @@ class Product{
         {
             $skipUpTo=$_POST['skipUpTo'];
             $limit=$_POST['limit'];
-            $query = "SELECT Product_Department AS queryData,Product_Name AS displayName,Product_PhotoPath AS imageURL,Product_MRP AS mrp,Product_SRate AS price,Product_DiscountRate AS save,Product_Code AS prodCode,Product_Name AS prodName,Product_Brand AS Brand FROM productinfo ORDER BY Product_Name ASC
+            $query = "SELECT Product_Department AS queryData,Product_Name AS displayName,Product_PhotoPath AS imageURL,Product_MRP AS mrp,Product_SRate AS price,Product_DiscountRate AS save,Product_Code AS prodCode,Product_Name AS prodName,Product_Brand AS Brand FROM ProductInfo ORDER BY Product_Name ASC
             LIMIT ".$skipUpTo.", ".$limit."";
         }
         // prepare query statement
@@ -84,7 +84,7 @@ class Product{
     function search($keywords){
         
         // select all query
-        $query = "SELECT Product_Department AS queryData,Product_Name AS displayName,Product_PhotoPath AS imageURL,Product_MRP AS mrp,Product_SRate AS price,Product_DiscountRate AS save,Product_Code AS prodCode,Product_Name AS prodName,Product_Brand AS Brand FROM productinfo
+        $query = "SELECT Product_Department AS queryData,Product_Name AS displayName,Product_PhotoPath AS imageURL,Product_MRP AS mrp,Product_SRate AS price,Product_DiscountRate AS save,Product_Code AS prodCode,Product_Name AS prodName,Product_Brand AS Brand FROM ProductInfo
                    WHERE Product_Name LIKE ? ORDER BY Product_Name ASC";
         
         // prepare query statement
@@ -109,7 +109,7 @@ class Product{
     {
         
         // select query
-        $query = "SELECT Product_Department AS queryData,Product_Name AS displayName,Product_PhotoPath AS imageURL,Product_MRP AS mrp,Product_SRate AS price,Product_DiscountRate AS save,Product_Code AS prodCode,Product_Name AS prodName,Product_Brand AS Brand FROM productinfo WHERE Product_Department LIKE ? OR Product_Name LIKE ?  ORDER BY Product_Name ASC
+        $query = "SELECT Product_Department AS queryData,Product_Name AS displayName,Product_PhotoPath AS imageURL,Product_MRP AS mrp,Product_SRate AS price,Product_DiscountRate AS save,Product_Code AS prodCode,Product_Name AS prodName,Product_Brand AS Brand FROM ProductInfo WHERE Product_Department LIKE ? OR Product_Name LIKE ?  ORDER BY Product_Name ASC
             LIMIT ?, ?";
         
         // prepare query statement
@@ -133,7 +133,7 @@ class Product{
     }
     // used for paging products
     public function count(){
-        $query = "SELECT COUNT(*) as total_rows FROM productinfo";
+        $query = "SELECT COUNT(*) as total_rows FROM ProductInfo";
         
         $stmt = $this->conn->prepare( $query );
         $stmt->execute();
