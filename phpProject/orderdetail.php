@@ -50,8 +50,10 @@ class OrderList{
            $query=" SELECT Order_MobileNo AS mobileNo, Order_CustomerName AS name,Order_OrderNo AS orderID, 
                   Order_MRP AS mrp,Order_DiscountRate AS price,Order_MRP-Order_DiscountRate AS Save,Order_Status AS status,
                    Order_ShippingAddress1 AS doorNo,Order_ShippingAddress2 AS street,Order_ShippingAddress3 AS landMark,Order_ShippingAddress4 AS location,
-                   Order_ShippingAddress5 AS city,Order_ShippingAddress6 AS pincode,Order_ShippingAddress7 AS state,Order_ProductCode AS Prodcode,
-                   Order_ProductName AS ProdName,Order_Department AS category,Order_ProductBrand AS Brand,
+                   Order_ShippingAddress5 AS city,Order_ShippingAddress6 AS pincode,Order_ShippingAddress7 AS state,
+                   (SELECT SUM(Order_MRP) FROM ".$this->table_name." WHERE Order_OrderNo='$this->orderID') AS totalmrp,(SELECT SUM(Order_DiscountRate) FROM ".$this->table_name." WHERE Order_OrderNo='$this->orderID') AS totalprice,
+                   ((SELECT SUM(Order_MRP) FROM ".$this->table_name." WHERE Order_OrderNo='$this->orderID')-(SELECT SUM(Order_DiscountRate) FROM ".$this->table_name." WHERE Order_OrderNo='$this->orderID')) AS totalsavings,Order_Date AS Date,Order_Time AS Time,
+                  Order_ProductCode AS Prodcode,Order_ProductName AS ProdName,Order_Department AS category,Order_ProductBrand AS Brand,
                   Order_ProductQuantity AS cartProdCount FROM ".$this->table_name." WHERE Order_OrderNo='$this->orderID' GROUP BY Order_ProductName";
             $stmt = $this->conn->prepare($query);
             
@@ -119,6 +121,14 @@ if($num>0){
             "state" => $state
             
         );
+        $billDetails=array(
+            "totalmrp" =>$totalmrp,
+            "totalprice"=>$totalprice,
+            "totalsavings"=>$totalsavings,
+            "Date"=>$Date,
+            "Time"=>$Time
+       
+            );
        
         $orderlist=array(
             
@@ -144,6 +154,7 @@ if($num>0){
         "name"=>$name,
         "orderID"=>$orderID,
         "deliveryAddress" => $deliveryAddress,
+        "billDetails"=>$billDetails,
         "productList" => $productList,
     );
     
