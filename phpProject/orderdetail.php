@@ -47,14 +47,14 @@ class OrderList{
         
         try {
             
-           $query=" SELECT Order_MobileNo AS mobileNo, Order_CustomerName AS name,Order_OrderNo AS orderID, 
-                  Order_MRP AS mrp,Order_DiscountRate AS price,Order_MRP-Order_DiscountRate AS Save,Order_Status AS status,
-                   Order_ShippingAddress1 AS doorNo,Order_ShippingAddress2 AS street,Order_ShippingAddress3 AS landMark,Order_ShippingAddress4 AS location,
-                   Order_ShippingAddress5 AS city,Order_ShippingAddress6 AS pincode,Order_ShippingAddress7 AS state,
+           $query=" SELECT o.Order_MobileNo AS mobileNo, o.Order_CustomerName AS name,o.Order_OrderNo AS orderID, 
+                  o.Order_MRP AS mrp,o.Order_DiscountRate AS price,o.Order_MRP-o.Order_DiscountRate AS save,o.Order_Status AS status,
+                   o.Order_ShippingAddress1 AS doorNo,o.Order_ShippingAddress2 AS street,o.Order_ShippingAddress3 AS landMark,o.Order_ShippingAddress4 AS location,
+                   o.Order_ShippingAddress5 AS city,o.Order_ShippingAddress6 AS pincode,o.Order_ShippingAddress7 AS state,
                    (SELECT SUM(Order_MRP) FROM ".$this->table_name." WHERE Order_OrderNo='$this->orderID') AS totalmrp,(SELECT SUM(Order_DiscountRate) FROM ".$this->table_name." WHERE Order_OrderNo='$this->orderID') AS totalprice,
-                   ((SELECT SUM(Order_MRP) FROM ".$this->table_name." WHERE Order_OrderNo='$this->orderID')-(SELECT SUM(Order_DiscountRate) FROM ".$this->table_name." WHERE Order_OrderNo='$this->orderID')) AS totalsavings,Order_Date AS Date,Order_Time AS Time,
-                  Order_ProductCode AS Prodcode,Order_ProductName AS ProdName,Order_Department AS category,Order_ProductBrand AS Brand,
-                  Order_ProductQuantity AS cartProdCount FROM ".$this->table_name." WHERE Order_OrderNo='$this->orderID' GROUP BY Order_ProductName";
+                   ((SELECT SUM(Order_MRP) FROM ".$this->table_name." WHERE Order_OrderNo='$this->orderID')-(SELECT SUM(Order_DiscountRate) FROM ".$this->table_name." WHERE Order_OrderNo='$this->orderID')) AS totalsavings,o.Order_Date AS Date,o.Order_Time AS Time,
+                  o.Order_ProductCode AS prodcode,o.Order_ProductName AS prodName,o.Order_ProductName AS displayName,o.Order_Department AS queryData,o.Order_ProductBrand AS brand,
+                  o.Order_ProductQuantity AS selectedCount,p.Product_PhotoPath AS imageURL FROM ".$this->table_name." o INNER JOIN ProductInfo p ON o.Order_ProductCode=p.Product_Code WHERE o.Order_OrderNo='$this->orderID' GROUP BY o.Order_ProductName";
             $stmt = $this->conn->prepare($query);
             
             // execute query
@@ -133,15 +133,17 @@ if($num>0){
         $orderlist=array(
             
             
-            "Prodcode"=> $Prodcode,
-            "ProdName"=> $ProdName,
-            "category"=> $category,
-            "Brand"=> $Brand,
-            "cartProdCount"=> $cartProdCount,
+            "prodcode"=> $prodcode,
+            "prodName"=> $prodName,            
+            "brand"=> $brand,              
+            "displayName"=>$displayName,
+            "queryData"=> $queryData, 
+            "imageURL"=>$imageURL,
             "mrp"=>$mrp,
             "price" =>  $price,
-            "Save" => $Save,
-            "status" => $status
+            "save" => $save,
+            "status" => $status,
+            "selectedCount"=> $selectedCount
             
             
         );

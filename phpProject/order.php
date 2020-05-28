@@ -67,15 +67,15 @@ class Order{
             
             foreach($array["OrderItems"] AS $row2)
             {
-                $ProdCode=$row2["ProdCode"];
-                $ProdName=$row2["ProdName"];
-                $category=$row2["category"];
-                $Brand=$row2["Brand"];
-                $cartProdCount=$row2["cartProdCount"];
-                if($row2["cartProdCount"]>1)
+                $prodCode=$row2["prodCode"];
+                $prodName=$row2["prodName"];
+                $queryData=$row2["queryData"];
+                $brand=$row2["brand"];
+                $selectedCount=$row2["selectedCount"];
+                if($row2["selectedCount"]>1)
                 {
-                    $mrp=$row2["mrp"]*$row2["cartProdCount"];
-                    $price=$row2["price"]*$row2["cartProdCount"];
+                    $mrp=$row2["mrp"]*$row2["selectedCount"];
+                    $price=$row2["price"]*$row2["selectedCount"];
                 }else{
                     
                     $mrp=$row2["mrp"];
@@ -87,8 +87,8 @@ class Order{
                    Order_ShippingAddress5,Order_ShippingAddress6,Order_ShippingAddress7,Order_ProductCode,
                    Order_ProductName,Order_Department,Order_ProductBrand,
                   Order_ProductQuantity,Order_MRP,Order_DiscountRate,Order_Status) VALUES(
-                  '".$orderID."','".$date."','".$time."','".$name."','".$mobileNo."','".$doorNo."','".$street."','".$landMark."','".$location."','".$city."','".$pincode."','".$state."','".$ProdCode."',
-                  '".$ProdName."','".$category."','".$Brand."','".$cartProdCount."','".$mrp."','".$price."','Order Placed');";
+                  '".$orderID."','".$date."','".$time."','".$name."','".$mobileNo."','".$doorNo."','".$street."','".$landMark."','".$location."','".$city."','".$pincode."','".$state."','".$prodCode."',
+                  '".$prodName."','".$queryData."','".$brand."','".$selectedCount."','".$mrp."','".$price."','Order Placed');";
                 
                 // prepare query
                 $stmt = $this->conn->prepare($query);
