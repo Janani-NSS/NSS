@@ -5,13 +5,13 @@ header("Content-Type: application/json; charset=UTF-8");
 header("Access-Control-Allow-Methods: POST");
 header("Access-Control-Max-Age: 3600");
 header("Access-Control-Allow-Headers: Content-Type, Access-Control-Allow-Headers, Authorization, X-Requested-With");
-
+date_default_timezone_set("Asia/Kolkata");
 // get database connection
 include_once 'database.php';
 
 class OrderList{
     
-    private $conn;
+    public  $conn;
     private $table_name = "id13357026_saravanasupermarket.Order";
     
     // object properties
@@ -21,7 +21,7 @@ class OrderList{
     public $mrp;
     public $price;
     public $status;
-    public $Save;
+    public $save;
     public $Date;
     public $Time;
         
@@ -36,7 +36,7 @@ class OrderList{
         
         try {
             
-            $query="SELECT Order_OrderNo AS orderID,sum(Order_MRP) AS mrp,sum(Order_DiscountRate) AS price,sum(Order_MRP-Order_DiscountRate) AS Save,Order_Status AS status,Order_Date AS Date,Order_Time AS Time
+            $query="SELECT Order_OrderNo AS orderID,sum(Order_MRP) AS mrp,sum(Order_DiscountRate) AS price,sum(Order_MRP-Order_DiscountRate) AS save,Order_Status AS status,Order_Date AS Date,Order_Time AS Time
                     FROM ".$this->table_name." WHERE Order_MobileNo='$this->mobileNo' AND Order_CustomerName='$this->name' AND Order_Status='Order Placed' Group BY Order_OrderNo";
             $stmt = $this->conn->prepare($query);
             //print($query);
@@ -87,7 +87,7 @@ if($num>0){
             "orderID"=>$orderID,
             "mrp"=>$mrp,
             "price" =>  $price,
-            "Save" => $Save,
+            "save" => $save,
             "status" => $status,
             "Date" => $Date,
             "Time" => $Time
@@ -96,13 +96,17 @@ if($num>0){
         );
         array_push($orderlist_arr, $orderlist_detail);
     }
+   // print($orderlist->name);
     
     // set response code - 201 created
     http_response_code(201);
     
     // tell the user
     echo json_encode($orderlist_arr);
-}
+ 
+  }
+  
+
 
 // if unable to create the product, tell the user
 else{
