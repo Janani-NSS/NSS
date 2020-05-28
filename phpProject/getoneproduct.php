@@ -40,7 +40,7 @@ class Product{
         if(isset($_POST['prodCode']))
         {
         $prodCode=$_POST['prodCode'];
-        $query = "SELECT Product_Department AS queryData,Product_Name AS displayName,Product_PhotoPath AS imageURL,Product_MRP AS mrp,Product_SRate AS price,Product_DiscountRate AS save,Product_Code AS prodCode,Product_Name AS prodName,Product_Brand AS Brand FROM ProductInfo WHERE Product_Code='$prodCode' ";
+        $query = "SELECT Product_Department AS queryData,Product_Name AS displayName,Product_PhotoPath AS imageURL,Product_MRP AS mrp,Product_DiscountRate AS price,Product_MRP-Product_DiscountRate AS save,Product_Code AS prodCode,Product_Name AS prodName,Product_Brand AS brand FROM ProductInfo WHERE Product_Code='$prodCode' ";
         }        
              
         // prepare query statement
@@ -88,7 +88,7 @@ if($num>0){
             "save" => $save,
             "prodCode" => $prodCode,
             "prodName" => $prodName,
-            "Brand" => $Brand
+            "brand" => $brand
         );
         array_push($products_arr["productList"], $product_item);
     }
