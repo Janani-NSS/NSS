@@ -24,6 +24,7 @@ class Address{
     public $city;
     public $pincode;
     public $state;
+    public $id;
     
     // constructor with $db as database connection
     public function __construct($db){
@@ -36,7 +37,7 @@ class Address{
         
         try {
                          
-            $query="SELECT c.CUSTOMER_NAME AS name,s.MobileNo As mobileNo,s.ShippingAddress_Add1 AS doorNo, s.ShippingAddress_Add2 AS street,s.ShippingAddress_Add3 AS landMark,s.ShippingAddress_Add4 AS location,s.ShippingAddress_Add5 AS city,s.ShippingAddress_Add6 AS pincode,s.ShippingAddress_Address7 AS state 
+            $query="SELECT c.CUSTOMER_NAME AS name,s.MobileNo As mobileNo,s.ShippingAddress_Add1 AS doorNo, s.ShippingAddress_Add2 AS street,s.ShippingAddress_Add3 AS landMark,s.ShippingAddress_Add4 AS location,s.ShippingAddress_Add5 AS city,s.ShippingAddress_Add6 AS pincode,s.ShippingAddress_Address7 AS state,s.ShippingAddress_Id AS id 
                      FROM ShippingAddressInfo s INNER JOIN CustomerProfileInfo c ON s.MobileNo=c.MOBILE_NUMBER  
                           WHERE s.MobileNo='$this->mobileNo'";
                 $stmt = $this->conn->prepare($query);
@@ -78,6 +79,7 @@ $address->location = $data->location;
 $address->city = $data->city;
 $address->pincode = $data->pincode;
 $address->state = $data->state;
+$address->id = $data->id;
 // create the product
 $stmt=$address->deliveryaddress();
 $num = $stmt->rowCount();
@@ -99,7 +101,8 @@ if($num>0){
             "location" => $location,
             "city" => $city,
             "pincode" => $pincode,
-            "state" => $state
+            "state" => $state,
+            "id" => $id
             
         );
         array_push($address_arr["AddressList"], $address_detail);
@@ -119,7 +122,7 @@ else{
     http_response_code(503);
     
     // tell the user
-    echo json_encode(array("status" => "Failed to store Address"));
+    echo json_encode(array("status" => "Failed to List Address"));
 }
 
 

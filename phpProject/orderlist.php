@@ -36,8 +36,8 @@ class OrderList{
         
         try {
             
-            $query="SELECT Order_OrderNo AS orderID,sum(Order_MRP) AS mrp,sum(Order_DiscountRate) AS price,sum(Order_MRP-Order_DiscountRate) AS save,Order_Status AS status,Order_Date AS Date,Order_Time AS Time
-                    FROM ".$this->table_name." WHERE Order_MobileNo='$this->mobileNo' AND Order_CustomerName='$this->name' AND Order_Status='Order Placed' Group BY Order_OrderNo";
+            $query="SELECT Order_OrderNo AS orderID,sum(Order_MRP) AS mrp,sum(Order_DiscountRate) AS price,sum(Order_MRP-Order_DiscountRate) AS Save,Order_Status AS status,Order_Date AS Date,Order_Time AS Time
+                    FROM ".$this->table_name." WHERE Order_MobileNo='$this->mobileNo' AND Order_CustomerName='$this->name' AND Order_Status='Pending' Group BY Order_OrderNo";
             $stmt = $this->conn->prepare($query);
             //print($query);
             // execute query
@@ -87,7 +87,7 @@ if($num>0){
             "orderID"=>$orderID,
             "mrp"=>$mrp,
             "price" =>  $price,
-            "save" => $save,
+            "Save" => $Save,
             "status" => $status,
             "Date" => $Date,
             "Time" => $Time

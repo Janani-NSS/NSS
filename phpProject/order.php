@@ -70,7 +70,7 @@ class Order{
                 $prodCode=$row2["prodCode"];
                 $prodName=$row2["prodName"];
                 $queryData=$row2["queryData"];
-                $brand=$row2["brand"];
+                $Brand=$row2["Brand"];
                 $selectedCount=$row2["selectedCount"];
                 if($row2["selectedCount"]>1)
                 {
@@ -88,7 +88,7 @@ class Order{
                    Order_ProductName,Order_Department,Order_ProductBrand,
                   Order_ProductQuantity,Order_MRP,Order_DiscountRate,Order_Status) VALUES(
                   '".$orderID."','".$date."','".$time."','".$name."','".$mobileNo."','".$doorNo."','".$street."','".$landMark."','".$location."','".$city."','".$pincode."','".$state."','".$prodCode."',
-                  '".$prodName."','".$queryData."','".$brand."','".$selectedCount."','".$mrp."','".$price."','Order Placed');";
+                  '".$prodName."','".$queryData."','".$Brand."','".$selectedCount."','".$mrp."','".$price."','Pending');";
                 
                 // prepare query
                 $stmt = $this->conn->prepare($query);
