@@ -36,7 +36,7 @@ class Product{
     }
     public function readOne(){
                
-        $query = "SELECT Product_Department AS queryData,Product_Name AS displayName,Product_PhotoPath AS imageURL,Product_MRP AS mrp,Product_DiscountRate AS price,Product_MRP-Product_DiscountRate AS save,Product_Code AS prodCode,Product_Name AS prodName,Product_Brand AS Brand FROM ProductInfo ";
+        $query = "SELECT Product_Department AS queryData,Product_Name AS displayName,Product_PhotoPath AS imageURL,Product_MRP AS mrp,Product_DiscountRate AS price,Product_MRP-Product_DiscountRate AS save,Product_Code AS prodCode,Product_Name AS prodName,Product_Brand AS Brand,Product_Group AS prodGroup FROM ProductInfo ";
         
         if(isset($_POST['category']))
         {
@@ -48,7 +48,7 @@ class Product{
             }
                        
         }
-        
+      
         if(isset($_POST['productNameTerm']))
         {
            
@@ -129,7 +129,8 @@ if($num>0){
             "save" => $save,
             "prodCode" => $prodCode,
             "prodName" => $prodName,
-            "Brand" => $Brand
+            "Brand" => $Brand,
+            "prodGroup"=>$prodGroup
         );
         array_push($products_arr["productList"], $product_item);
     }
